@@ -1,282 +1,242 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>My First Bitstarter</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://d396qusza40orc.cloudfront.net/startup%2Fcode%2Fbootstrap-combined.no-icons.min.css">
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css">
-    <link rel="stylesheet" href="https://d396qusza40orc.cloudfront.net/startup%2Fcode%2Fsocial-buttons.css">
-    <script src="https://d396qusza40orc.cloudfront.net/startup%2Fcode%2Fjquery.js"></script>
-    <script src="https://d396qusza40orc.cloudfront.net/startup%2Fcode%2Fbootstrap.js"></script>
-    <link href="http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,300,400,600,700,800"
-          rel="stylesheet" type="text/css">
-    <style type="text/css">
 
-      /* Large desktop */
-      @media (min-width: 980px) {
-        body {
-          padding-top: 60px;
-        }
-        .linediv-l {
-          border-right: 1px white solid;
-        }
-        .linediv-r {
-          border-left: 1px white solid;
-        }
-      }
+<html>
+    <head>
+        <title>SuperSplit - Split the bill in a simple and social way</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
 
-      /* Landscape phones and down */
-      @media (max-width: 480px) {
-        .copy {
-          padding: 2.5% 10%;
-        }
-        .linediv-l {
-          border-bottom: 1px white solid;
-        }
-        .linediv-r {
-          border-top: 1px white solid;
-        }
-      }
+        <style type="text/css">
+            .top {
+                background-color: rgb(189, 216, 255);
+                padding-top: 48px;
+            }
 
-      /* All form factors */
+            .bottom {
+                box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);
+                padding-top: 3%;
+                padding-bottom: 5%;
+            }
 
-      /* Main body and headings */
-      body {
-        font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-      }
-      .heading, .subheading {
-        font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
-        text-align: center;
-      }
-      p.lead {
-        padding-top: 1.5%;
-        font-size: 24px;
-        line-height: 30px;
-      }
-      p {
-        font-size: 18px;
-        line-height: 24px;
-      }
+            .footer {
+                color: #999;
+                background-color: #666;
+                padding-top: 1%;
+            }
 
-      /* Video pitch and Action */
-      .pitch {
-        padding: 2.5% 0%;
-      }
-      .order {
-        padding: 2% 0%;
-      }
-      .actions {
-        background-color: #343434;
-        padding: 3% 0%;
-      }
-      .video, .thermometer, .order, .social, .statistics {
-        text-align: center;
-      }
-      .statistics h3, .statistics p {
-        color: white;
-      }
+            .footer p {
+                font-size: 11px;
+            }
 
-      /* Marketing Copy and Footer */
-      .copy {
-        padding-top: 2.5%;
-        padding-bottom: 2.5%;
-        text-align: justify;
-      }
-      .asset {
-        padding: 2.5% 0%;
-      }
-      .footer {
-        color: #cccccc;
-        text-align: center;
-      }
-      .footer p {
-        font-size: 11px;
-      }
-      .footer a {
-        color: #ccccff;
-      }
+            .footer a {
+                color: #ccc;
+                font-weight: bold;
+            }
 
-    </style>
-  </head>
-  <body>
+            .navbar {
+                /* FIXME: Why doesn't this shadow work? */
+                box-shadow: inset 0 -2px 6px rgba(0, 1, 1, 0.5);
+            }
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <button type="button" class="btn btn-navbar"
-                  data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="#">Bitstarter</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+            .navbar .brand {
+                margin-left: 12px;
+            }
 
-    <div class="container">
-      <div class="row-fluid heading">
-        <div class="span12">
-          <h1>Product</h1>
-        </div>
-      </div>
-      <div class="row-fluid subheading">
-        <div class="span12">
-          <p class="lead">One sentence description.</p>
-        </div>
-      </div>
+            .actions {
+                margin-top: 3%;
+                background-color: #343434;
+                padding: 1%;
+                border-radius: 5px;
 
-      <div class="row-fluid pitch">
-        <div class="span5 offset1 video">
-          <img class="img-polaroid" src="http://placehold.it/480x300">
-        </div>
+            }
 
-        <!-- We define a new 'actions' div to contain statistics, order, and share buttons.-->
-        <div class="span5 actions">
-          <div class="span8 offset2">
-            <div class="statistics">
-              <div class="span4">
-                <div class="linediv-l">
-                  <h3>1000</h3> <p>backers</p>
-                </div>
-              </div>
-              <div class="span4">
-                <div class="linediv-c">
-                  <h3>$6000</h3> <p>of $10,000</p>
-                </div>
-              </div>
-              <div class="span4">
-                <div class="linediv-r">
-                  <h3>10</h3> <p>days left</p>
-                </div>
-              </div>
+            .statistics, .thermometer, .order, .social {
+                text-align: center;
+            }
+
+            .statistics h3, .statistics p {
+                color: white;
+                margin-top: 0;
+            }
+
+            h1 {
+                font-size: 32pt;
+            }
+
+            .lead {
+                font-size: 34pt;
+                line-height: 38pt;
+            }
+
+            .copy {
+                text-align: justify;
+                margin-top: 3%;
+            }
+
+            .asset {
+                margin-top: 3%;
+            }
+
+            form.navbar-form {
+                margin-right: 12px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <a class="brand">SuperSplit</a>
+                <form class="navbar-form pull-right">
+
+                    <button class="btn">t</button>
+                    <button class="btn">f</button>
+                    <button class="btn" style="margin-right: 8px;">g</button>
+                    <button class="btn">Contact us!</button>
+                </form>
+
             </div>
-          </div>
-          <div class="span10 offset1">
-            <!-- Bootstrap progress bar -->
-            <!-- http://twitter.github.io/bootstrap/components.html#progress -->
-            <div class="thermometer progress active">
-              <div class="bar bar-success" style="width: 60%;"></div>
-              <div class="bar bar-warning" style="width: 40%;"></div>
-            </div>
-          </div>
-          <div class="span6 offset3 order">
-            <!-- Standard Bootstrap button. -->
-            <!-- http://twitter.github.io/bootstrap/base-css.html#buttons -->
-            <button class="btn btn-success btn-large">Preorder</button>
-          </div>
-          <div class="span8 offset2 social">
-            <!-- Social buttons are not included in default Bootstrap. -->
-            <!-- See: ... -->
-            <button class="btn btn-twitter"><i class="icon-twitter"></i> | Twitter</button>
-            <button class="btn btn-facebook"><i class="icon-facebook"></i> | Facebook</button>
-          </div>
         </div>
-      </div>
 
-      <!-- Beyond this part the marketing copy begins. -->
-      <div class="row-fluid section1">
-        <div class="span5 offset1 asset">
-          <img class="img-polaroid" src="http://placehold.it/480x300">
-        </div>
-        <div class="span5 copy">
-          <p>
-
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Donec
-            porta, dui sagittis hendrerit rutrum, nunc leo tempus nisl, eu
-            mollis justo velit at nunc. Fusce nec egestas sem.  Donec
-            fringilla ante lectus, a pellentesque lacus dignissim ac. Sed
-            volutpat lorem ut congue malesuada. In facilisis scelerisque
-            turpis sed lacinia.  Donec in orci lectus. Donec auctor semper
-            quam, eget rhoncus purus fringilla id.  Phasellus id nibh eu
-            risus ultrices adipiscing. Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit. Donec porta, dui sagittis hendrerit
-            rutrum, nunc leo tempus nisl, eu mollis justo velit at
-            nunc. Fusce nec egestas sem. Donec fringilla.
-
-          </p>
-        </div>
-      </div>
-
-      <div class="row-fluid section2">
-        <div class="span5 offset1 copy copy-right">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Donec
-            porta, dui sagittis hendrerit rutrum, nunc leo tempus nisl, eu
-            mollis justo velit at nunc. Fusce nec egestas sem.  Donec
-            fringilla ante lectus, a pellentesque lacus dignissim ac. Sed
-            volutpat lorem ut congue malesuada. In facilisis scelerisque
-            turpis sed lacinia.  Donec in orci lectus. Donec auctor semper
-            quam, eget rhoncus purus fringilla id.  Phasellus id nibh eu
-            risus ultrices adipiscing. Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit. Donec porta, dui sagittis hendrerit
-            rutrum, nunc leo tempus nisl, eu mollis justo velit at
-            nunc. Fusce nec egestas sem. Donec fringilla.
-          </p>
-        </div>
-        <div class="span5 asset">
-          <img class="img-polaroid" src="http://placehold.it/480x300">
-        </div>
-      </div>
-
-      <!-- FAQ -->
-      <div class="row-fluid faq">
-        <div class="span10 offset1">
-          <h3>FAQ</h3>
-          <div class="accordion" id="accordion2">
-
-            <div class="accordion-group">
-              <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse"
-                   data-parent="#accordion2" href="#collapseOne">
-                  What does FAQ stand for?
-                </a>
-              </div>
-              <div id="collapseOne" class="accordion-body collapse">
-                <div class="accordion-inner">
-                  Frequently Asked Question.
+        <div class="top"><div class="container">
+            <div class="row-fluid heading">
+                <div class="span4 offset1">
+                    <h1>SuperSplit</h1>
                 </div>
-              </div>
+                <div class="span8"></div>
             </div>
-            <div class="accordion-group">
-              <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse"
-                   data-parent="#accordion2" href="#collapseTwo">
-                  What's a Frequently Asked Question?
-                </a>
-              </div>
-              <div id="collapseTwo" class="accordion-body collapse">
-                <div class="accordion-inner">
-                  A question which is commonly asked by users.
+
+            <div class="row-fluid">
+                <div class="span6 offset3 text-center">
+                    <p class="lead">A social and simple way to split the bill</p>
                 </div>
-              </div>
             </div>
-          </div>
+
+            <div class="row-fluid">
+                <div class="span6 offset3 text-center">
+                    <form class="form-inline">
+                        <p>Want to know when SuperSplit is ready?</p>
+                        <fieldset>
+                            <div class="input-append">
+                            <input type="text" placeholder="Your email">
+                            <button type="submit" class="btn">Send</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span6 offset4 text-center">
+                    <img src="img/nexus4.png" style="width: 70%; height: auto">
+
+                </div>
+            </div>
+        </div></div>
+
+        <div class="bottom"><div class="container">
+            <div class="row-fluid">
+                <div class="span8 offset2 copy">
+                    <p>
+                        
+                        We always found that splitting the bill after a
+                        great evening out with friends was a cumbersome
+                        experience.  Everyone had a different dish, some
+                        had one drink while others had three, and a few
+                        of us also had coffee aftwards.  And then there 
+                        was a 10% discount.  It won't be long until some
+                        of us fire up a calculator app and realize that
+                        the allegedly simple math for splitting a bill
+                        is quite challening after three beers. Sounds
+                        familiar?
+
+                    </p>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span4 offset2 copy">
+                    <p>
+
+                        Splitting the bill should be simple. You want to
+                        spent time with your friends, not with a
+                        calculator app. That's why we develop
+                        SuperSplit.  SuperSplit changes splitting the bill
+                        from awkward into a social experience.  You just
+                        snap a photo of the bill and it is shared
+                        automatically with your friends around you.
+                        Everyone simply taps on the items they had.
+                        SuperSplit shows who owes what &mdash; including
+                        a tip if you want.</p>
+                        
+                        </p>You immediately see which items your friends have
+                        claimed, making it fast and easy to split a
+                        bill.  And of course, SuperSplit also allows you
+                        to divvy an item (think shared salads) or
+                        consider discounts.
+
+                    </p>
+                </div>
+
+                <div class="span4 asset">
+                    <img class="img-polaroid" style="width: 380px; height: 210px;" src="paying-check.jpg">
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span8 offset2 copy">
+                    <p>
+                    
+                    SuperSplit is most fun if everyone in your party
+                    uses it. That's why we have decided to make SuperSplit
+                    available for free. In that way, you and your
+                    friends can try it without having to cut into your
+                    beer money. Cheers!
+
+                    </p>
+                </div>
+            </div>
+
+            <!--<div class="row-fluid">
+                <div class="statistics actions span6 offset3">
+                    <div class="row-fluid">
+                    <div class="offset3 span2">
+                        <div class="linediv-l"><h3>1000</h3> <p>backers</p></div>
+                    </div>
+                    <div class="span2">
+                        <div class="linediv-c"><h3>$0</h3> <p>of $6,000</p></div>
+                    </div>
+                    <div class="span2">
+                        <div class="linediv-c"><h3>10</h3> <p>days left</p></div>
+                    </div>
+                    </div>
+
+                    <div class="row-fluid"><div class="span10 offset1">
+                        <div class="thermometer progress active">
+                          <div class="bar bar-success" style="width: 60%;"></div>
+                          <div class="bar bar-warning" style="width: 40%;"></div>
+                        </div>
+                    </div></div>
+
+                    <div class="row-fluid"><div class="span10 offset1">
+                        <button class="btn btn-large">Back it!</button>
+                    </div></div>
+                </div>
+            </div>-->
+
+
         </div>
 
       </div>
-
-      <!-- Not crucial, but we put this under a CC By-SA 3.0 license. -->
-      <!-- http://creativecommons.org/licenses/ -->
-      <div class="row-fluid footer">
-        <div class="span12">
-          <p>This work is licensed under
-            the <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC
-              By-SA 3.0
-            </a>, without all the cruft that would otherwise be
-            put at the bottom of the page.</p>
+        
+        <div class="row-fluid footer">
+            <div class="span6 offset2">
+                <p>A product by <a href="">meowgoesthecat</a>. Made in Sweden.<br>
+                Download the <a href="">presskit</a> or contact us at <a href="">hello@meowgoesthecat.com</a>.</p>
+            </div>
         </div>
-      </div>
 
-    </div>
-  </body>
+    </body>
 </html>
