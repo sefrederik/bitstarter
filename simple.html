@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>SuperShare - Share photos and videos with the people around you.</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Lobster|Raleway:300' rel='stylesheet' type='text/css'>
+        <link rel="shortcut icon" href="static/img/favicon.png">
+
+
+        <style type="text/css">
+        .jumbotron {
+            background-color: rgb(172, 209, 233);
+            background: url(static/img/portland-blurred.jpg);
+            box-shadow: 0 2px 5px 0px gray;
+            background-size: auto 100%;
+            color: #fff;
+            background-position: left;
+        }
+
+        .phone {
+            background: url(static/img/iphone.png);
+            background-position: right bottom;
+            background-repeat: no-repeat;
+            background-size: auto 80%;
+        }
+
+        .lead {
+            letter-spacing: 0px;
+            font-family: 'Raleway';
+        }
+
+        .glass {
+            background: url(static/img/white-opac-.4.png);
+            color: white;
+            padding-left: 1%;
+            border-radius: 4px;
+        }
+
+        .jumbotron h1 {
+           margin-bottom: 5%;
+           font-family: 'Lobster';
+        }
+
+        div.action {
+            margin-bottom: 3%;
+            padding: 1%;
+        }
+
+        .privacy-hint {
+            margin-top: -5pt;
+            margin-left: 1%;
+            color: #444;
+            font-size: 8pt;
+        }
+
+        img.social {
+            height: 24px;
+            margin-right: 2%;
+            margin-left: 1%;
+        }
+
+        div.icon {
+            margin-top: 3%;
+            width: 85%;
+            text-align: center;
+            margin-bottom: 5%;
+        }
+
+        img.icon {
+            width: 64px;
+            opacity: 0.5;
+        }
+        .copy {
+            width: 85%;
+            line-height: 170%;
+            color: #555;
+        }
+
+        #repeat-call {
+            text-align: center; 
+            margin-top: 3%;
+        }
+
+        </style>
+    </head>
+
+    <body>
+        <div class="jumbotron"><div class="phone">
+            <div class="row-fluid">
+                <div class="span6 offset2">
+                    <h1>SuperShare</h1>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span10 offset2">
+                    <p class="lead">Share photos and videos with the people around you.<br>
+                    Without the hassle.<p>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="glass span4 offset2 action">
+                    <p>Want to know when SuperShare is ready?</p>
+
+                    <fieldset>
+                        <div class="input-append">
+                            <input type="text" class="input-large" placeholder="Your email">
+                            <button type="submit" class="btn btn-primary">Send</button>
+                        </div>
+                        <p class="privacy-hint">We will never give away your email address.</p>
+                    </fieldset>
+
+                    <p>Tell your friends about SuperShare!</p>
+
+                    <div class="social">
+                        <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+                        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+                        <img src="static/img/fb-like-mockup.png" style="margin-top: -12px; margin-left: -10px; margin-right: 23px">
+
+                        <div class="g-plusone" data-size="medium"></div>
+                        <script type="text/javascript">
+                          (function() {
+                            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                            po.src = 'https://apis.google.com/js/plusone.js';
+                            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+                          })();
+                        </script>
+                    </div>
+
+                </div>
+            </div>
+        </div></div>
+
+        <div class="row-fluid">
+            <div class="span3 offset2">
+
+                <div class="icon"><img src="static/img/icon-photo.png" class="icon"></div>
+                
+                <p class="copy">The people around you are the people you care
+                the most about: your family and friends.</p>
+
+                <p class="copy">Whether you are at the pub, a concert, or
+                family dinner, we believe it should be really easy to share
+                your photos, videos and files with the people around you.</p>
+
+                <p class="copy">That's why we develop SuperShare.</p>
+
+            </div>
+
+            <div class="span3">
+
+                <div class="icon"><img src="static/img/icon-share.png" class="icon"></div>
+
+                <p class="copy">With SuperShare, you don't need to setup WiFi
+                networks or mess with Bluetooth connections.</p>
+
+                <p class="copy">All you need to do is set a key phrase for the
+                content you want to share, and your friends can access the
+                content by entering the phrase. Zero setup time, so you can
+                focus on the experience, not the technology.</p>
+
+            </div>
+
+            <div class="span3">
+
+                <div class="icon"><img src="static/img/icon-secure.png" class="icon"></div>
+
+                <p class="copy">Sharing with SuperShare is secure. Your data
+                is transferred over an encrypted connection. And of course it
+                is available only to those people who know the key phrase.</p>
+
+                <p class="copy">We value your privacy. SuperShare does not
+                collect your private information, and you are not required to
+                sign up.</p>
+
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            <div class="offset3 span6" id="repeat-call">
+
+                <p class="copy">Did we pique your interest?<br>
+                <a href="#action"><strong>Tell your friends!</strong></a></p>
+
+            </div>
+        </div>
+    </body>
+</html>
