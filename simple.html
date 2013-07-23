@@ -12,7 +12,7 @@
 
         <style type="text/css">
         @media (max-width: 767px) {
-            .jumbotron {
+            .jumbotron, .footer {
                 margin-left: -20px;
                 margin-right: -20px;
                 padding-left: 20px;
@@ -62,14 +62,25 @@
         }
 
         .jumbotron h1 {
-           margin-bottom: 5%;
-           font-family: 'Lobster';
+            margin-top: 5%;
+            margin-bottom: 5%;
+            font-family: 'Lobster';
+        }
+
+        .footer {
+            font-family: 'Raleway';
+            margin-top: 5%;
+            padding-top: 2%;
+            background-color: #333;
+            color: #bbb;
+            font-size: 8pt;
+            box-shadow: 0 -2px 5px 0px gray;
         }
 
         .privacy-hint {
             margin-top: -5pt;
             margin-left: 1%;
-            color: #444;
+            color: #000;
             font-size: 8pt;
         }
 
@@ -79,16 +90,14 @@
             margin-left: 1%;
         }
 
-        div.icon {
-            margin-top: 10%;
-            width: 85%;
-            text-align: center;
-            margin-bottom: 5%;
-        }
-
-        img.icon {
+        .icon {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
             width: 64px;
             opacity: 0.5;
+            margin-top: 15%;
+            margin-bottom: 10%;
         }
         .copy {
             line-height: 170%;
@@ -159,10 +168,9 @@
         <div class="row-fluid">
             <div class="span3 offset1">
 
-                <div class="icon"><img src="static/img/icon-photo.png" class="icon"></div>
-                
-                <p class="copy">The people around you are the people you care
-                the most about: your family and friends.</p>
+                <p class="copy"><img class="icon"
+                src="static/img/icon-photo.png"> The people around you are the
+                people you care the most about: your family and friends.</p>
 
                 <p class="copy">Whether you are at the pub, a concert, or
                 family dinner, we believe it should be really easy to share
@@ -174,9 +182,9 @@
 
             <div class="span3">
 
-                <div class="icon"><img src="static/img/icon-share.png" class="icon"></div>
 
-                <p class="copy">With SuperShare, you don't need to setup WiFi
+                <p class="copy"> <img src="static/img/icon-share.png"
+                class="icon"> With SuperShare, you don't need to setup WiFi
                 networks or mess with Bluetooth connections.</p>
 
                 <p class="copy">All you need to do is set a key phrase for the
@@ -188,11 +196,10 @@
 
             <div class="span3">
 
-                <div class="icon"><img src="static/img/icon-secure.png" class="icon"></div>
-
-                <p class="copy" lang="en">Sharing with SuperShare is secure. Your data
-                is transferred over an encrypted connection. And of course it
-                is available only to those people who know the key phrase.</p>
+                <p class="copy"><img src="static/img/icon-secure.png"
+                class="icon">Sharing with SuperShare is secure. Your data is
+                transferred over an encrypted connection. And of course it is
+                available only to those people who know the key phrase.</p>
 
                 <p class="copy">We value your privacy. SuperShare does not
                 collect your private information, and you are not required to
@@ -211,5 +218,20 @@
         </div>
 
         </div><!-- /container -->
+
+
+        <div class="footer"><div class="container">
+            <div class="row-fluid">
+                <div class="span2 offset1">
+                    <p>meowgoesthecat 2013.<br>
+                    <a href="mailto:">Contact us!</a></p>
+
+                </div>
+                <div class="span6">
+                    <p>Header photo is derived from a <a href="http://en.wikipedia.org/wiki/File:Portland_Night_panorama.jpg">great photo</a> by Eric Baetscher.<br>
+                    The header is licensed under the Creative Commons Attribution-Share Alike 3.0 Unported license.</p>
+                </div>
+            </div>
+        </div></div>
     </body>
 </html>
