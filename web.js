@@ -14,6 +14,7 @@ app.get('/', function(request, response) {
 app.post('/email/add', function(request, response) {
   var line = new Date() + ';'; 
   line += request.connection.remoteAddress + ';';
+  line += request.headers['X-Forwarded-For'] + ';';
   line += request.body.email.replace('\n', '') + '\n';
   console.log(line);
   response.end();
