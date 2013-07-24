@@ -117,6 +117,50 @@
     </head>
 
     <body>
+        <script src="http://code.jquery.com/jquery.js"></script>
+        <script src="static/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            var addEmail = function() {
+                var addr = $('#email').val();
+                if (addr != '') {
+                    $.post('email/add/', {'email': $('#email').val()}, function() {
+                        $('#email-modal').modal();
+                    });
+                }
+            }
+        </script>
+
+        <div id="email-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="modalLabel">Thank you!</h3>
+          </div>
+          <div class="modal-body">
+            <p>Thank you for your interest in SuperShare!
+            We will make sure to shoot you a mail when SuperShare is ready.</p>
+
+            <p>If you feel like it, let your friends know about SuperShare!</p>
+            <div class="social">
+
+                <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+                <div class="g-plusone" data-size="medium"></div>
+                <script type="text/javascript">
+                  (function() {
+                    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                    po.src = 'https://apis.google.com/js/plusone.js';
+                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+                  })();
+                </script>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+          </div>
+        </div>
+
         <div class="jumbotron"><div class="container"><div class="phone">
             <div class="row-fluid">
                 <div class="span6 offset1">
@@ -137,14 +181,13 @@
 
                     <fieldset>
                         <div class="input-append">
-                            <input type="email" class="input-large" placeholder="Your email">
-                            <button type="submit" class="btn btn-primary">Send</button>
+                            <input id="email" type="email" class="input-large" placeholder="Your email">
+                            <button type="submit" class="btn btn-primary" onclick="javascript:addEmail();">Send</button>
                         </div>
                         <p class="privacy-hint">We will never give away your email address.</p>
                     </fieldset>
 
                     <p>Tell your friends about SuperShare!</p>
-
                     <div class="social">
 
                         <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>

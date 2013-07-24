@@ -3,12 +3,22 @@ var fs = require('fs');
 
 var app = express.createServer(express.logger());
 
+app.use('/static', express.static(__dirname + '/static'));
+app.use(express.bodyParser());
+
 app.get('/', function(request, response) {
   buf = fs.readFileSync('simple.html');
   response.send(buf.toString());
 });
 
-app.use('/static', express.static(__dirname + '/static'));
+app.post('/email/add', function(request, response) {
+  var line = new Date() + ';'; 
+  line += request.connection.remoteAddress + ';';
+  line += request.body.email.replace('\n', '') + '\n';
+  console.log(line);
+  response.end();
+});
+
 
 var port = process.env.PORT || 8080;
 app.listen(port, function() {
