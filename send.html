@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Portal - Add to portal</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="noindex">
+        <meta charset="utf-8"> 
+        <link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <script src="http://code.jquery.com/jquery.js"></script>
+        <script src="static/bootstrap/js/bootstrap.min.js"></script>
+        <script src="static/js/jquery.cookie.js"></script>
+        <script src="static/js/bootstrap.file-input.js"></script>
+
+        <script type="text/javascript">
+        var hashPhrase = function(phrase) {
+            return phrase;
+        }
+
+        var getFile = function(evt) {
+            var target = $(evt.target);
+            console.log(target);
+
+            if (target.is('td')) {
+                target = target.parent();
+            }
+
+            filename = target.children('td').first().text();
+            hash = hashPhrase($.cookie('portal-phrase'));
+            window.location = '/portal-api/v0/'+hash+'/'+filename;
+        }
+
+        var clearList = function() {
+            $('#portal-list > tbody > tr').remove();
+        }
+
+        var populateList = function(data) {
+            var html = '';
+            for (var i=0;i<data.files.length;i++) {
+                html += '<tr><td>' + data.files[i].name + '</td>' +
+                            '<td>' + data.files[i].size + '</td></tr>';
+            }
+            clearList();
+            $('#portal-list > tbody').html(html);
+            $('#portal-list > tbody > tr').click(getFile);
+        }
+
+        var handleError = function(req) {
+            clearList();
+            $.removeCookie('portal-phrase');
+            alert(req.status + ' ' + req.responseJSON['error']);
+        };
+
+        var list = function(phrase) {
+            $.cookie('portal-phrase', phrase);
+            var hash = hashPhrase(phrase);
+            $.get('/portal-api/v0/'+hash, populateList)
+             .error(handleError);
+        }
+
+        $(document).ready(function() {
+            $('input[type=file]').bootstrapFileInput();
+            if ($.cookie('portal-phrase')) {
+                $('#portal-phrase').val($.cookie('portal-phrase'));
+            }
+
+            $('#send-form').submit(function() {
+                $.cookie('portal-phrase', $('#portal-phrase').val());
+                var action = $('#send-form').attr('action') +
+                             $('#portal-phrase').val();
+                $('#send-form').attr('action', action);
+            });
+        });
+        </script>
+
+        <div class="container">
+            <div class="span6">
+
+                <form enctype="multipart/form-data" action="/portal-api/v0/" method="post" id="send-form">
+                    <legend>Share something</legend>
+
+                    <p>Sharing a file is really easy. Use the
+                    <strong>Browse</strong> to select a file you want to
+                    share. Enter a phrase and hit <strong>Send</strong>. All done!</p>
+
+                    <input type="hidden" name="redirect" value="1">
+
+                    <p><input type="file" name="file"></p>
+                    <div class="input-append">
+                        <input type="text" placeholder="Portal phrase" name="portal_phrase" id="portal-phrase" class="input-xlarge">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+     </body>
+</html>
