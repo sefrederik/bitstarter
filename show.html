@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Portal - Show portal</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="noindex">
+        <meta charset="utf-8"> 
+        <link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+
+        <style type="text/css">
+            #portal-empty {
+                display: none;
+            }
+        </style>
+    </head>
+
+    <body>
+        <script src="http://code.jquery.com/jquery.js"></script>
+        <script src="static/bootstrap/js/bootstrap.min.js"></script>
+        <script src="static/js/jquery.cookie.js"></script>
+
+        <script type="text/javascript">
+        var hashPhrase = function(phrase) {
+            return phrase;
+        }
+
+        /* http://stackoverflow.com/questions/1403888 */
+        function getURLParameter(name) {
+            return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+        }
+
+        var getFile = function(evt) {
+            var target = $(evt.target);
+            console.log(target);
+
+            if (target.is('td')) {
+                target = target.parent();
+            }
+
+            filename = target.children('td').first().text();
+            hash = hashPhrase($.cookie('portal-phrase'));
+            window.location = '/portal-api/v0/'+hash+'/'+filename;
+        }
+
+        var clearList = function() {
+            $('#portal-list > tbody > tr').remove();
+        }
+
+        var populateList = function(data) {
+            $('#portal-empty').hide();
+            $('#portal-list').show();
+            var html = '';
+            for (var i=0;i<data.files.length;i++) {
+                html += '<tr><td>' + data.files[i].name + '</td>' +
+                            '<td>' + data.files[i].size + '</td></tr>';
+            }
+            clearList();
+            $('#portal-list > tbody').html(html);
+            $('#portal-list > tbody > tr').click(getFile);
+        }
+
+        var handleError = function(req) {
+            clearList();
+            $('#portal-list').hide();
+            $('#portal-empty').show();
+        };
+
+        var list = function(phrase) {
+            $.cookie('portal-phrase', phrase);
+            var hash = hashPhrase(phrase);
+            $.get('/portal-api/v0/'+hash, populateList)
+             .error(handleError);
+        }
+
+        $(document).ready(function() {
+            if (getURLParameter('portal-phrase')) {
+                $.cookie('portal-phrase', getURLParameter('portal-phrase'));
+            }
+
+            if ($.cookie('portal-phrase')) {
+                $('#portal-phrase').val($.cookie('portal-phrase'));
+                list($.cookie('portal-phrase'));
+            }
+
+            if (getURLParameter('ok')) {
+                console.log('Added file to portal.');
+            }
+
+            if (getURLParameter('error')) {
+                console.log('Error: ' + getURLParameter('error'));
+            }
+
+            $('#list-btn').click(function(evt) {
+                list($('#portal-phrase').val());
+            });
+        });
+        </script>
+
+        <div class="container">
+            <div class="span6">
+                <fieldset>
+                    <legend>Show portal</legend>
+                    <div class="input-append">
+                        <input type="text" placeholder="Portal phrase" name="portal-name" id="portal-phrase" class="input-xlarge">
+                        <input type="submit" value="Show" class="btn btn-primary" id="list-btn">
+                    </div>
+                </fieldset>
+
+
+                <p id="portal-empty">This portal is empty.</p>
+
+                <table class="table table-striped" id="portal-list">
+                    <thead>
+                        <tr><th>Name</th><th>Size</th></tr>
+                    </thead>
+
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+     </body>
+</html>
