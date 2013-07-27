@@ -4,6 +4,7 @@ var fs = require('fs');
 var app = express.createServer();
 app.use(express.logger());
 app.use(express.bodyParser());
+app.use(express.cookieParser());
 app.use('/static', express.static(__dirname + '/static'));
 
 var cleanHash = function(hash) {
@@ -54,57 +55,81 @@ app.get('/portal-api/v0/:hash/:filename', function(req, res) {
     });
 });
 
-/** Add a file to a portal. */
-app.post('/portal-api/v0/:hash', function(req, res) {
-    var hash = cleanHash(req.params.hash);
-    var filename = cleanFilename(req.files.file.name);
-    var path = 'portal/'+hash+'/';
+var mkdir = function(path) {
     try {
-        fs.mkdirSync('portal');
         fs.mkdirSync(path);
     } catch (err) {
-        console.log(err);
+        if (err.code != 'EEXIST') {
+            return {error: err.message};
+            console.log(err);
+        }
+    }
+    return {ok: true};
+}
+
+/** Add a newly uploaded file to a portal. */
+function addFileToPortal(file, phrase, hash) {
+    var result;
+
+    result = mkdir('portal');
+    if (result.error) {
+        return result;
     }
 
-    var json = {};
-    var code = 500;
+    result = mkdir('portal/'+hash);
+    if (result.error) {
+        return result;
+    }
+
     try {
-        fs.renameSync(req.files.file.path, path+filename);
-        json = {ok: true, 'portal-phrase': req.body.portal_phrase};
-        code = 200;
+        /* TODO Copy the file, delete original, to enable
+         *      renaming across filesystems. */
+        fs.renameSync(file.path, 'portal/'+hash+'/'+file.name);
+        result = {'ok': true,
+                  'phrase': phrase,
+                  'filename': file.name};
     } catch (err) {
         console.log(err);
-        json = {error: 'Unspecified error'};
-        code = 500;
+        result = {error: err.message};
     }
 
+
+    console.log(result);
+
+    return result;
+}
+
+/** Add a file to a portal. */
+app.post('/portal-api/v0/:hash', function(req, res) {
+    req.params.hash = cleanHash(req.params.hash);
+    req.files.file.name = cleanFilename(req.files.file.name);
+
+    var result = addFileToPortal(req.files.file, req.body.phrase,
+                                 req.params.hash);
+
     if (req.body.redirect) {
-        var params = '';
-        for (var key in json) {
-            params += encodeURIComponent(key) + '=' +
-                      encodeURIComponent(json[key]) + '&';
-        }
-        res.redirect('/show?' + params, 302);
+        /* Send the result via cookie. */
+        res.cookie('result', JSON.stringify(result), {path: '/'});
+        res.redirect('/show', 302);
     } else {
-        res.json(json, code);
+        /* Send a JSON result. */
+        res.json(json, result.error ? 500 : 201);
     }
 });
 
 /** UI: Show a portal. */
 app.get('/show', function(req, res) {
-    res.send(fs.readFileSync('show.html').toString());
+    res.sendfile('show.html', {root: __dirname});
 });
 
 /** UI: Add file to portal. */
 app.get('/send', function(req, res) {
-    res.setHeader('content-type', 'text/html');
-    res.send(fs.readFileSync('send.html').toString());
+    res.sendfile('send.html', {root: __dirname});
 });
 
 /** Landing page. */
-app.get('/', function(request, response) {
-  buf = fs.readFileSync('simple.html');
-  response.send(buf.toString());
+app.get('/', function(req, res) {
+    res.sendfile('simple.html', {root: __dirname});
 });
 
 /** Landing page email. */

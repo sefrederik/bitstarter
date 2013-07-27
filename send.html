@@ -17,64 +17,27 @@
         <script src="static/js/bootstrap.file-input.js"></script>
 
         <script type="text/javascript">
-        var hashPhrase = function(phrase) {
-            return phrase;
-        }
-
-        var getFile = function(evt) {
-            var target = $(evt.target);
-            console.log(target);
-
-            if (target.is('td')) {
-                target = target.parent();
+            var hashPhrase = function(phrase) {
+                return phrase;
             }
 
-            filename = target.children('td').first().text();
-            hash = hashPhrase($.cookie('portal-phrase'));
-            window.location = '/portal-api/v0/'+hash+'/'+filename;
-        }
+            $(document).ready(function() {
+                $('input[type=file]').bootstrapFileInput();
 
-        var clearList = function() {
-            $('#portal-list > tbody > tr').remove();
-        }
+                /* Prefill phrase. */
+                if ($.cookie('phrase')) {
+                    $('#phrase').val($.cookie('phrase'));
+                }
 
-        var populateList = function(data) {
-            var html = '';
-            for (var i=0;i<data.files.length;i++) {
-                html += '<tr><td>' + data.files[i].name + '</td>' +
-                            '<td>' + data.files[i].size + '</td></tr>';
-            }
-            clearList();
-            $('#portal-list > tbody').html(html);
-            $('#portal-list > tbody > tr').click(getFile);
-        }
-
-        var handleError = function(req) {
-            clearList();
-            $.removeCookie('portal-phrase');
-            alert(req.status + ' ' + req.responseJSON['error']);
-        };
-
-        var list = function(phrase) {
-            $.cookie('portal-phrase', phrase);
-            var hash = hashPhrase(phrase);
-            $.get('/portal-api/v0/'+hash, populateList)
-             .error(handleError);
-        }
-
-        $(document).ready(function() {
-            $('input[type=file]').bootstrapFileInput();
-            if ($.cookie('portal-phrase')) {
-                $('#portal-phrase').val($.cookie('portal-phrase'));
-            }
-
-            $('#send-form').submit(function() {
-                $.cookie('portal-phrase', $('#portal-phrase').val());
-                var action = $('#send-form').attr('action') +
-                             $('#portal-phrase').val();
-                $('#send-form').attr('action', action);
+                $('#send-form').submit(function() {
+                    /* Store form phrase in cookie. */
+                    $.cookie('phrase', $('#phrase').val());
+                    /* Update action to contain the hash. */
+                    var action = $('#send-form').attr('action') +
+                                 hashPhrase($('#phrase').val());
+                    $('#send-form').attr('action', action);
+                });
             });
-        });
         </script>
 
         <div class="container">
@@ -91,7 +54,7 @@
 
                     <p><input type="file" name="file"></p>
                     <div class="input-append">
-                        <input type="text" placeholder="Portal phrase" name="portal_phrase" id="portal-phrase" class="input-xlarge">
+                        <input type="text" placeholder="Portal phrase" name="phrase" id="phrase" class="input-xlarge">
                         <button type="submit" class="btn btn-primary">Add</button>
                     </div>
                 </form>

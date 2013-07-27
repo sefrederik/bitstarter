@@ -8,12 +8,6 @@
         <meta charset="utf-8"> 
         <link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
         <link href="static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
-
-        <style type="text/css">
-            #portal-empty {
-                display: none;
-            }
-        </style>
     </head>
 
     <body>
@@ -31,16 +25,14 @@
             return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
         }
 
+        /** Redirect user to file in portal. */
         var getFile = function(evt) {
             var target = $(evt.target);
-            console.log(target);
-
             if (target.is('td')) {
                 target = target.parent();
             }
-
             filename = target.children('td').first().text();
-            hash = hashPhrase($.cookie('portal-phrase'));
+            hash = hashPhrase($.cookie('phrase'));
             window.location = '/portal-api/v0/'+hash+'/'+filename;
         }
 
@@ -49,7 +41,7 @@
         }
 
         var populateList = function(data) {
-            $('#portal-empty').hide();
+            $('#empty').hide();
             $('#portal-list').show();
             var html = '';
             for (var i=0;i<data.files.length;i++) {
@@ -64,52 +56,70 @@
         var handleError = function(req) {
             clearList();
             $('#portal-list').hide();
-            $('#portal-empty').show();
+            $('#empty').show();
         };
 
         var list = function(phrase) {
-            $.cookie('portal-phrase', phrase);
+            $.cookie('phrase', phrase);
+            $('.phrase').text(phrase);
             var hash = hashPhrase(phrase);
             $.get('/portal-api/v0/'+hash, populateList)
              .error(handleError);
         }
 
         $(document).ready(function() {
-            if (getURLParameter('portal-phrase')) {
-                $.cookie('portal-phrase', getURLParameter('portal-phrase'));
+            if ($.cookie('result')) {
+                result = jQuery.parseJSON($.cookie('result'));
+                if (result.ok) {
+                    $('#send-success .message').text(result.filename);
+                    $('#send-success').show();
+                    console.log(result);
+                    $.cookie('phrase', result.phrase);
+                } else {
+                    /* assert result.error */
+                    $('#send-error .message').text(result.error);
+                    $('#send-error').show();
+                }
+
+                /* Delete result cookie, since we informed the user.
+                 * According to stackoverflow, we should be setting
+                 * the cookie value to null to delete it. However,
+                 * that doesn't seem to work. */
+                $.cookie('result', '', {path: '/'});
             }
 
-            if ($.cookie('portal-phrase')) {
-                $('#portal-phrase').val($.cookie('portal-phrase'));
-                list($.cookie('portal-phrase'));
-            }
-
-            if (getURLParameter('ok')) {
-                console.log('Added file to portal.');
-            }
-
-            if (getURLParameter('error')) {
-                console.log('Error: ' + getURLParameter('error'));
+            if ($.cookie('phrase')) {
+                $('#phrase').val($.cookie('phrase'));
+                $('.phrase').text($.cookie('phrase'));
+                list($.cookie('phrase'));
             }
 
             $('#list-btn').click(function(evt) {
-                list($('#portal-phrase').val());
+                list($('#phrase').val());
             });
         });
         </script>
 
         <div class="container">
             <div class="span6">
-                <fieldset>
-                    <legend>Show portal</legend>
-                    <div class="input-append">
-                        <input type="text" placeholder="Portal phrase" name="portal-name" id="portal-phrase" class="input-xlarge">
-                        <input type="submit" value="Show" class="btn btn-primary" id="list-btn">
-                    </div>
-                </fieldset>
+                <legend>Portal <span class="phrase"></span></legend>
 
+                <div class="alert alert-success hide" id="send-success">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
 
-                <p id="portal-empty">This portal is empty.</p>
+                    <strong>Nice!</strong> You have added <span class="message"></span> to the portal.
+                </div>
+
+                <div class="alert alert-error hide" id="send-error">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+                    <strong>Oh no!</strong> An error occurred while adding the file to the portal. Please try again.<br>
+                    (Error: <span class="message"></span>)
+                </div>
+
+                <div class="alert alert-info hide" id="empty">
+                    This portal is empty.
+                </div>
 
                 <table class="table table-striped" id="portal-list">
                     <thead>
@@ -119,6 +129,14 @@
                     <tbody>
                     </tbody>
                 </table>
+
+
+                <fieldset>
+                    <div class="input-append">
+                        <input type="text" placeholder="Portal phrase" name="portal-name" id="phrase" class="input-xlarge">
+                        <input type="submit" value="Show" class="btn btn-primary" id="list-btn">
+                    </div>
+                </fieldset>
             </div>
         </div>
 
