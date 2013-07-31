@@ -1,5 +1,7 @@
 var express = require('express');
 var fs = require('fs');
+var fstream = require('fstream');
+var robup = require('./robup');
 
 var app = express.createServer();
 app.use(express.logger());
@@ -25,6 +27,7 @@ app.get('/portal-api/v0/:hash', function(req, res) {
         for (var i=0; i<files.length; i++) {
             var stats = fs.statSync(dir + files[i]);
             json['files'].push({name: files[i], size: stats.size});
+            console.log(stats);
             /* TODO mime type, timestamp. */
         }
         res.json(json);
@@ -84,7 +87,10 @@ function addFileToPortal(file, phrase, hash) {
     try {
         /* TODO Copy the file, delete original, to enable
          *      renaming across filesystems. */
-        fs.renameSync(file.path, 'portal/'+hash+'/'+file.name);
+        var src = fstream.Reader(file.path);
+        var dest = fstream.Writer('portal/'+hash+'/'+file.name);
+        src.pipe(dest);
+        //fs.renameSync(file.path, 'portal/'+hash+'/'+file.name);
         result = {'ok': true,
                   'phrase': phrase,
                   'filename': file.name};
@@ -92,7 +98,6 @@ function addFileToPortal(file, phrase, hash) {
         console.log(err);
         result = {error: err.message};
     }
-
 
     console.log(result);
 
@@ -116,6 +121,13 @@ app.post('/portal-api/v0/:hash', function(req, res) {
         res.json(json, result.error ? 500 : 201);
     }
 });
+
+function uploadKey(req) {
+    return req.params.portal+'/'+req.params.file;
+}
+
+app.get('/portal-api/v0/:portal/:file/stream', robup.streamUpload(uploadKey));
+app.put('/portal-api/v1/:portal/:file', robup.handleChunk(uploadKey));
 
 /** UI: Show a portal. */
 app.get('/show', function(req, res) {
