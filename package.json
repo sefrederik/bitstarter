@@ -2,8 +2,8 @@
   "name": "node-example",
   "version": "0.0.1",
   "dependencies": {
-    "express": "2.5.x"
-    "fstream": ">=0.1.24",
+    "express": "2.5.x",
+    "fstream": ">=0.1.24"
   },
   "engines": {
     "node": "0.8.x",
