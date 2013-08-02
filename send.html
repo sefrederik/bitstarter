@@ -11,33 +11,98 @@
     </head>
 
     <body>
-        <script src="http://code.jquery.com/jquery.js"></script>
+        <script src="static/js/jquery-1.7.1.min.js"></script>
         <script src="static/bootstrap/js/bootstrap.min.js"></script>
         <script src="static/js/jquery.cookie.js"></script>
         <script src="static/js/bootstrap.file-input.js"></script>
 
         <script type="text/javascript">
             var hashPhrase = function(phrase) {
-                return phrase;
+                return encodeURIComponent(phrase);
             }
 
-            $(document).ready(function() {
-                $('input[type=file]').bootstrapFileInput();
+var CHUNK_SIZE = 512*1024;
+var fileData;
+var dataSize;
+var nextChunk;
+var numChunks;
+var putURL;
 
-                /* Prefill phrase. */
-                if ($.cookie('phrase')) {
-                    $('#phrase').val($.cookie('phrase'));
-                }
+function chunkComplete(jqXHR, textStatus) {
+    console.log('PUT result: ' + textStatus);
+    if (textStatus == 'success') {
+        console.log('Sending next chunk');
+        nextChunk++;
+        if (nextChunk < numChunks) {
+            uploadChunk();
+        }
+    } else {
+        /* TODO retry timeout? */
+        console.error('PUT chunk failed.');
+        console.log(jqHXR);
+        window.setTimeout(uploadChunk, 1000);
+    }
+}
 
-                $('#send-form').submit(function() {
-                    /* Store form phrase in cookie. */
-                    $.cookie('phrase', $('#phrase').val());
-                    /* Update action to contain the hash. */
-                    var action = $('#send-form').attr('action') +
-                                 hashPhrase($('#phrase').val());
-                    $('#send-form').attr('action', action);
+function uploadChunk() {
+    console.log('Uploading chunk ' + nextChunk);
+    console.log('PUT URL ' + putURL);
+    var params = {chunk: nextChunk,
+                  data: fileData.slice(nextChunk*CHUNK_SIZE,
+                                       (nextChunk+1)*CHUNK_SIZE),
+                  dataSize: dataSize
+                 };
+    jQuery.ajax(putURL,
+                {complete: chunkComplete,
+                 data: params,
+                 type: 'PUT',
+                 dataType: 'json'
                 });
-            });
+}
+
+$(document).ready(function() {
+    $('input[type=file]').bootstrapFileInput();
+
+    /* Prefill phrase. */
+    if ($.cookie('phrase')) {
+        $('#phrase').val($.cookie('phrase'));
+    }
+
+    $('#send-form').submit(function() {
+        /* Store form phrase in cookie. */
+        $.cookie('phrase', $('#phrase').val());
+        /* Update action to contain the hash. */
+        var action = $('#send-form').attr('action') +
+                     hashPhrase($('#phrase').val());
+        $('#send-form').attr('action', action);
+    });
+
+    /* Prepare a reader to trigger uploading. */
+    var reader = new FileReader();
+    reader.onload = function(evt) {
+        fileData = evt.target.result;
+        dataSize = evt.target.result.length;
+        nextChunk = 0;
+        numChunks = Math.ceil(evt.target.result.length / CHUNK_SIZE);
+        uploadChunk();
+    };
+
+    $('#send-btn').click(function() {
+        /* Read file into fileData. */
+        if ($('#file')[0].files.length === 0) {
+            alert('Please select a file.');
+            return;
+        }
+        var portalHash = hashPhrase('foobar'); // FIXME
+        var fileNameHash = hashPhrase($('#file')[0].files[0].name);
+        putURL = '/portal-api/v0/' + portalHash + '/' + fileNameHash;
+        reader.readAsDataURL($('#file')[0].files[0]);
+    });
+});
+
+
+
+
         </script>
 
         <div class="container">
@@ -52,10 +117,10 @@
 
                     <input type="hidden" name="redirect" value="1">
 
-                    <p><input type="file" name="file"></p>
+                    <p><input type="file" name="file" id="file"></p>
                     <div class="input-append">
                         <input type="text" placeholder="Portal phrase" name="phrase" id="phrase" class="input-xlarge">
-                        <button type="submit" class="btn btn-primary">Add</button>
+                        <button type="button" id="send-btn" class="btn btn-primary">Send</button>
                     </div>
                 </form>
             </div>

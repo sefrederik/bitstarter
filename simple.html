@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>SuperShare - Share photos and videos with the people around you.</title>
+        <title>PortalShare - Share photos and videos with the people around you.</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="robots" content="noindex">
         <meta charset="utf-8"> 
@@ -13,21 +13,6 @@
 
 
         <style type="text/css">
-        @media (min-width: 767px) {
-            /*.jumbo-right {
-               position: relative;
-               text-align: center;
-               height: 382px;
-            }
-
-            .jumbo-right img {
-                position: absolute;
-                left: 0;
-                bottom: 0;
-                max-height: 80%;
-            }*/
-        }
-
         @media (max-width: 767px) {
             .jumbotron, .footer {
                 margin-left: -20px;
@@ -36,13 +21,8 @@
                 padding-right: 20px;
             }
 
-            div.phone {
-                background: none;
-            }
-
             .copy {
                 padding-right: 5%;
-                text-align: justify;
                 padding-left: 5%;
             }
         }
@@ -56,11 +36,32 @@
             background-position: left;
         }
 
-        .phone {
-            background: url(static/img/iphone.png);
-            background-position: right bottom;
-            background-repeat: no-repeat;
-            background-size: auto 80%;
+        .jumbotron h1 {
+            margin-top: 5%;
+            margin-bottom: 5%;
+            font-family: 'Lobster', cursive;
+        }
+
+        .action {
+            background: url(static/img/white-opac-.3.png);
+            color: white;
+            border-radius: 4px;
+            font-family: 'Ubuntu', 'Helvetica', sans-serif;
+            max-width: 460px;
+            margin-bottom: 3%;
+            padding: 2%;
+            font-size: 11pt;
+        }
+
+        .privacy-hint {
+            margin-top: -5pt;
+            margin-left: 1%;
+            color: #000;
+            font-size: 8pt;
+        }
+
+        #app-carousel {
+            margin: 0;
         }
 
         .nexus {
@@ -102,54 +103,6 @@
             background-position: bottom center;
         }
 
- 
-
-        .lead {
-            letter-spacing: 0px;
-            font-family: 'Ubuntu', Helvetica, sans-serif;
-        }
-
-        .action {
-            background: url(static/img/white-opac-.3.png);
-            color: white;
-            border-radius: 4px;
-            font-family: 'Ubuntu';
-            max-width: 460px;
-            margin-bottom: 3%;
-            padding: 2%;
-            font-size: 11pt;
-        }
-
-        .jumbotron h1 {
-            margin-top: 5%;
-            margin-bottom: 5%;
-            font-family: 'Lobster', cursive;
-        }
-
-        .footer {
-            font-family: 'Ubuntu';
-            margin-top: 5%;
-            padding-top: 2%;
-            background-color: #333;
-            color: #bbb;
-            font-size: 8pt;
-            box-shadow: 0 -2px 5px 0px black;
-            border-top: 1px solid black;
-        }
-
-        .privacy-hint {
-            margin-top: -5pt;
-            margin-left: 1%;
-            color: #000;
-            font-size: 8pt;
-        }
-
-        img.social {
-            height: 24px;
-            margin-right: 2%;
-            margin-left: 1%;
-        }
-
         .icon {
             display: block;
             margin-left: auto;
@@ -157,6 +110,7 @@
             margin-top: 15%;
             margin-bottom: 10%;
         }
+
         .copy {
             line-height: 170%;
             color: #555;
@@ -169,11 +123,21 @@
             text-align: center;
         }
 
+        .footer {
+            font-family: 'Ubuntu', sans-serif;
+            margin-top: 5%;
+            padding-top: 1%;
+            background-color: #333;
+            color: #bbb;
+            font-size: 8pt;
+            box-shadow: 0 -2px 5px 0px black;
+            border-top: 1px solid black;
+        }
         </style>
     </head>
 
     <body>
-        <script src="http://code.jquery.com/jquery.js"></script>
+        <script src="static/js/jquery-1.7.1.min.js"></script>
         <script src="static/bootstrap/js/bootstrap.min.js"></script>
         <script type="text/javascript">
             var addEmail = function() {
@@ -211,11 +175,11 @@
             <h3 id="modalLabel">Thank you!</h3>
           </div>
           <div class="modal-body">
-            <p>Thank you for your interest in SuperShare!
-            We will make sure to shoot you a mail when SuperShare is ready.</p>
+            <p>Thank you for your interest in PortalShare!
+            We will make sure to shoot you a mail when PortalShare is ready.</p>
 
-            <p>If you feel like it, let your friends know about SuperShare!</p>
-            <div class="social">
+            <p>If you feel like it, let your friends know about PortalShare!</p>
+            <div>
 
                 <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
                 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
@@ -234,7 +198,7 @@
           <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
           </div>
-        </div>
+        </div> <!-- email modal -->
 
         <div class="jumbotron"><div class="container">
 
@@ -242,7 +206,7 @@
             <div class="span7">
                 <div class="row-fluid">
                     <div class="span12">
-                        <h1>SuperShare</h1>
+                        <h1>PortalShare</h1>
                     </div>
                 </div>
 
@@ -254,8 +218,8 @@
                 </div>
 
                 <div class="row-fluid">
-                    <div class="span12"><div class="action" id="action">
-                        <p>Want to know when SuperShare is ready?</p>
+                    <div class="span12"><div class="action">
+                        <p>Want to know when PortalShare is ready?</p>
 
                         <fieldset>
                             <div class="input-append">
@@ -265,8 +229,8 @@
                             <p class="privacy-hint">We will never give away your email address.</p>
                         </fieldset>
 
-                        <p>Tell your friends about SuperShare!</p>
-                        <div class="social">
+                        <p>Tell your friends about PortalShare!</p>
+                        <div>
 
                             <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
                             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
@@ -286,8 +250,8 @@
 
             </div> <!-- jumbotron left -->
 
-            <div class="span5 jumbo-right pull-down" style="border: 0px solid yellow; padding: 0">
-                <div id="app-carousel" class="carousel slide" style="border: 0px dotted green; height: 100%; bottom: 0; margin:  0; ">
+            <div class="span5 jumbo-right pull-down">
+                <div id="app-carousel" class="carousel slide">
                     <ol class="carousel-indicators">
                         <li data-target="#app-carousel" data-slide-to="0" class="active"></li>
                         <li data-target="#app-carousel" data-slide-to="1"></li>
@@ -295,35 +259,26 @@
                         <li data-target="#app-carousel" data-slide-to="3"></li>
                     </ol>
 
-                    <div class="carousel-inner" style="border: 0px dashed blue; margin-bottom: 0">
+                    <div class="carousel-inner">
                         <div class="active item nexus">
                             <div class="screen" id="nexus-screen-portland"></div>
                         </div>
                         <div class="item nexus">
                             <div class="screen" id="nexus-screen-share"></div>
                         </div>
-
-                        <div class="item iphone">
-                        </div>
+                        <div class="item iphone"></div>
                         <div class="item iphone">
                             <div class="screen" id="iphone-screen-portland"></div>
                         </div>
-
-
                     </div>
 
                     <a class="carousel-control left" style="z-index: 2" href="#app-carousel" data-slide="prev">&lsaquo;</a>
                     <a class="carousel-control right" style="z-index: 2" href="#app-carousel" data-slide="next">&rsaquo;</a>
                 </div>
             </div>
-<!--    <div class="span5 jumbo-right" style="height: 382px; border: 0px dashed green; text-align: center; position: relative;">
-                <img style="position: absolute; max-height: 80%; right: 0; bottom: 0; border: 0px solid yellow; left: 0; " src="static/img/iphone-cropped.png">
-            </div>
--->
-
-        </div>
-        </div>
-        </div>
+        </div> <!-- /row -->
+        </div> <!-- /container -->
+        </div> <!-- /jumbotron -->
 
         <div class="container">
         <div class="row-fluid">
@@ -338,15 +293,14 @@
                 family dinner, we believe it should be really easy to share
                 your photos, videos and files with the people around you.</p>
 
-                <p class="copy">That's why we develop SuperShare.</p>
+                <p class="copy">That's why we develop PortalShare.</p>
 
             </div>
 
             <div class="span3 offset1">
 
-
                 <p class="copy"> <img src="static/img/icon-share.png" alt="Share"
-                class="icon"> With SuperShare, you don't need to setup WiFi
+                class="icon"> With PortalShare, you don't need to setup WiFi
                 networks or mess with Bluetooth connections.</p>
 
                 <p class="copy">All you need to do is set a key phrase for the
@@ -359,11 +313,11 @@
             <div class="span3 offset1">
 
                 <p class="copy"><img src="static/img/icon-secure.png" alt="Secure"
-                class="icon">Sharing with SuperShare is secure. Your data is
+                class="icon">Sharing with PortalShare is secure. Your data is
                 transferred over an encrypted connection. And of course it is
                 available only to those people that you give the key phrase to.</p>
 
-                <p class="copy">We value your privacy. SuperShare does not
+                <p class="copy">We value your privacy. PortalShare does not
                 collect your private information, and you are not required to
                 sign up.</p>
 
@@ -389,7 +343,7 @@
                     <a href="mailto:">Contact us!</a></p>
 
                 </div>
-                <div class="span6">
+                <div class="span9">
                     <p>Header photo is derived from a <a href="http://en.wikipedia.org/wiki/File:Portland_Night_panorama.jpg">great photo</a> by Eric Baetscher.<br>
                     The header is licensed under the <a href="http://en.wikipedia.org/wiki/en:Creative_Commons">Creative Commons</a> <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en">Attribution-Share Alike 3.0 Unported</a> license.</p>
                 </div>
