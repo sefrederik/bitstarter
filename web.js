@@ -1,11 +1,13 @@
 var express = require('express');
 var fs = require('fs');
 var fstream = require('fstream');
-var robup = require('./robup');
+var struppi = require('struppi');
 
 var app = express.createServer();
 app.use(express.logger());
 app.use(express.bodyParser());
+delete express.bodyParser.parse['multipart/form-data'];
+app.use(struppi.uploadHandler());
 app.use(express.cookieParser());
 app.use('/static', express.static(__dirname + '/static'));
 
@@ -23,7 +25,7 @@ app.get('/portal-api/v0/:hash', function(req, res) {
     try {
         var dir = 'portal/' + hash + '/';
         var json = {'files': Array()};
-        files = fs.readdirSync(dir);
+       files = fs.readdirSync(dir);
         for (var i=0; i<files.length; i++) {
             var stats = fs.statSync(dir + files[i]);
             json['files'].push({name: files[i], size: stats.size});
@@ -126,8 +128,8 @@ function uploadKey(req) {
     return req.params.portal+'/'+req.params.file;
 }
 
-app.get('/portal-api/v0/:portal/:file/stream', robup.streamUpload(uploadKey));
-app.put('/portal-api/v1/:portal/:file', robup.handleChunk(uploadKey));
+//app.get('/portal-api/v0/:portal/:file/stream', robup.streamUpload(uploadKey));
+//app.put('/portal-api/v1/:portal/:file', robup.handleChunk(uploadKey));
 
 /** UI: Show a portal. */
 app.get('/show', function(req, res) {
